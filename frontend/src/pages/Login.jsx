@@ -1,19 +1,26 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 import "../styles/auth.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
 
     setTimeout(() => {
-      console.log("Logging in with:", { email, password });
+      login(email);
       setLoading(false);
+      navigate("/dashboard");
     }, 1000);
   };
 
@@ -40,24 +47,35 @@ export default function Login() {
 
           <div className="input-group">
             <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+
+            <div className="password-wrapper">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword((prev) => !prev)}
+                role="button"
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
+            </div>
           </div>
 
           <button type="submit" disabled={loading}>
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? "Loging in..." : "Log In"}
           </button>
         </form>
 
         <p className="auth-footer">
-          Don&apos;t have an account?{" "}
-          <Link to="/signup">Sign up for free</Link>
+          Don&apos;t have an account? <Link to="/signup">Sign up for free</Link>
         </p>
       </div>
     </div>

@@ -70,9 +70,10 @@
   border: 1px solid #e2e8f0;
   background: #f8fafc;
   font-size: 16px;
-  transition: all 0.2s ease;
-  box-sizing: border-box; /* חשוב כדי שהפדינג לא יהרוס את הרוחב */
+  color: #0f172a;
+  box-sizing: border-box;
 }
+
 
 .login-card input:focus {
   outline: none;
@@ -116,4 +117,26 @@
   color: var(--primary);
   text-decoration: none;
   font-weight: 600;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 44px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #94a3b8; /* אפור אלגנטי */
+  font-size: 18px;
+}
+
+.password-toggle:hover {
+  color: #1e293b;
 }
