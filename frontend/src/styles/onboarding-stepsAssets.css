@@ -1,0 +1,125 @@
+/* === Step Layout === */
+.onboarding-step {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Titles */
+.onboarding-step h2 {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.step-description {
+  color: #cbd5e1; /* חזק וברור יותר */
+  font-size: 15px;
+  font-weight: 500;
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+/* === Options Grid === */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* === Option Button === */
+.option-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 22px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+/* hover */
+.option-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-color);
+}
+
+/* selected */
+.option-btn.selected {
+  background: rgba(0, 210, 255, 0.18);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 18px rgba(0, 210, 255, 0.35);
+}
+
+/* Icon */
+.option-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+/* === Text INSIDE option === */
+.option-btn span {
+  display: block;
+}
+
+/* title (למשל HODLer / Live Charts) */
+.option-btn span:first-child {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* description */
+.option-btn span:last-child {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #e2e8f0; /* הרבה יותר קריא */
+  line-height: 1.5;
+}
+
+/* === Actions === */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+}
+
+/* Back button */
+.back-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #e5e7eb;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Primary */
+.primary-btn {
+  background: linear-gradient(135deg, #3b82f6, #00d2ff);
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 210, 255, 0.35);
+  margin-top: 10px;
+}
+
+.primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+

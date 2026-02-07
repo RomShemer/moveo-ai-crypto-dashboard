@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 import "../styles/auth.css";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const { signup } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,9 +29,11 @@ export default function Signup() {
 
     setLoading(true);
 
+    // סימולציה של בקשת Signup
     setTimeout(() => {
-      console.log("Signing up with:", { email, password });
+      signup(email);              // ⬅️ שומר משתמש מחובר
       setLoading(false);
+      navigate("/onboarding");    // ⬅️ מעבר ל-Onboarding
     }, 1000);
   };
 
@@ -53,7 +60,6 @@ export default function Signup() {
 
           <div className="input-group">
             <label htmlFor="password">Password</label>
-
             <div className="password-wrapper">
               <input
                 id="password"
@@ -63,12 +69,10 @@ export default function Signup() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword((prev) => !prev)}
                 role="button"
-                aria-label="Toggle password visibility"
               >
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
@@ -77,7 +81,6 @@ export default function Signup() {
 
           <div className="input-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
-
             <div className="password-wrapper">
               <input
                 id="confirmPassword"
@@ -87,12 +90,12 @@ export default function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
-
               <span
                 className="password-toggle"
-                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                onClick={() =>
+                  setShowConfirmPassword((prev) => !prev)
+                }
                 role="button"
-                aria-label="Toggle password visibility"
               >
                 {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
@@ -100,7 +103,7 @@ export default function Signup() {
           </div>
 
           {error && (
-            <p style={{ color: "red", marginBottom: "12px", fontSize: "14px" }}>
+            <p style={{ color: "red", marginBottom: "12px" }}>
               {error}
             </p>
           )}
