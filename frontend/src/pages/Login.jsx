@@ -9,20 +9,30 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      login(email);
+    try {
+      const user = await login({ email, password });
+
+      if (!user.onboardingCompleted) {
+        navigate("/onboarding");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      setError(err.message || "Login failed");
+    } finally {
       setLoading(false);
-      navigate("/dashboard");
-    }, 1000);
-  };
+    }
+  }
 
   return (
     <div className="login-container">
@@ -52,6 +62,8 @@ export default function Login() {
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                name="current-password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -69,8 +81,12 @@ export default function Login() {
             </div>
           </div>
 
+          {error && (
+            <p style={{ color: "red", marginBottom: "12px" }}>{error}</p>
+          )}
+
           <button type="submit" disabled={loading}>
-            {loading ? "Loging in..." : "Log In"}
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 

@@ -6,6 +6,7 @@ import "../styles/auth.css";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -18,7 +19,7 @@ export default function Signup() {
   const { signup } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
@@ -29,13 +30,20 @@ export default function Signup() {
 
     setLoading(true);
 
-    // סימולציה של בקשת Signup
-    setTimeout(() => {
-      signup(email);              // ⬅️ שומר משתמש מחובר
+    try {
+      await signup({
+        name,
+        email,
+        password,
+      });
+
+      navigate("/onboarding");
+    } catch (err) {
+      setError(err.message || "Signup failed");
+    } finally {
       setLoading(false);
-      navigate("/onboarding");    // ⬅️ מעבר ל-Onboarding
-    }, 1000);
-  };
+    }
+  }
 
   return (
     <div className="login-container">
@@ -59,11 +67,25 @@ export default function Signup() {
           </div>
 
           <div className="input-group">
+            <label htmlFor="name">Full Name</label>
+            <input
+              id="name"
+              type="text"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="input-group">
             <label htmlFor="password">Password</label>
             <div className="password-wrapper">
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
+                name="new-password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -85,6 +107,8 @@ export default function Signup() {
               <input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
+                autoComplete="new-password"
+                name="new-password"
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -92,9 +116,7 @@ export default function Signup() {
               />
               <span
                 className="password-toggle"
-                onClick={() =>
-                  setShowConfirmPassword((prev) => !prev)
-                }
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
                 role="button"
               >
                 {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
@@ -103,9 +125,7 @@ export default function Signup() {
           </div>
 
           {error && (
-            <p style={{ color: "red", marginBottom: "12px" }}>
-              {error}
-            </p>
+            <p style={{ color: "red", marginBottom: "12px" }}>{error}</p>
           )}
 
           <button type="submit" disabled={loading}>

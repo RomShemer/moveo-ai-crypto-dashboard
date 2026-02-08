@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+
+import { useAuth } from "../../context/AuthContext";
+import { apiRequest } from "../../services/api";
+
 import StepAssets from "./steps/StepAssets";
 import StepInvestorType from "./steps/StepInvestorType";
 import StepContent from "./steps/StepContent";
+
 import "../../styles/onboarding.css";
 
 export default function Onboarding() {
   const navigate = useNavigate();
+  const { setUser, completeOnboarding } = useAuth();
+
   const [step, setStep] = useState(1);
   const [preferences, setPreferences] = useState({
     assets: [],
@@ -18,9 +25,25 @@ export default function Onboarding() {
   const next = () => setStep((s) => s + 1);
   const back = () => setStep((s) => s - 1);
 
-  const finish = () => {
-    localStorage.setItem("userPreferences", JSON.stringify(preferences));
-    navigate("/dashboard");
+  const finish = async () => {
+    try {
+      const res = await apiRequest("/api/onboarding/complete", {
+        method: "POST",
+      });
+
+      await apiRequest("/api/preferences", {
+        method: "POST",
+        body: JSON.stringify(preferences),
+      });
+
+      setUser(res.user);
+
+      // 4. רק עכשיו מותר לעבור לדאשבורד
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Onboarding failed:", err);
+      navigate("/login");
+    }
   };
 
   const pageVariants = {
@@ -39,6 +62,7 @@ export default function Onboarding() {
       >
         <div className="onboarding-header">
           <div className="onboarding-progress">Step {step} of 3</div>
+
           <div className="progress-bar-container">
             <motion.div
               className="progress-bar-fill"

@@ -1,9 +1,16 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function OnboardingRoute({ children }) {
-  const hasPreferences = localStorage.getItem("userPreferences");
+  const { user, loading } = useAuth();
 
-  if (!hasPreferences) {
+  if (loading) return null;
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!user.onboardingCompleted) {
     return <Navigate to="/onboarding" replace />;
   }
 
