@@ -1,25 +1,35 @@
 const router = require("express").Router();
 const { requireAuth } = require("../middleware/auth.middleware");
-const { users } = require("../controllers/auth.controller");
+const prisma = require("../prisma");
 
-router.post("/complete", requireAuth, (req, res) => {
-  const userId = req.user.sub;
+router.post("/complete", requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.sub;
 
-  const user = users.find(u => u.id === userId);
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        onboardingCompleted: true,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        onboardingCompleted: true,
+      },
+    });
 
-  user.onboardingCompleted = true;
+    return res.json({ user });
+  } catch (err) {
+    console.error("POST /onboarding/complete error:", err);
 
-  return res.json({
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      onboardingCompleted: true
+    if (err.code === "P2025") {
+      // Prisma: record not found
+      return res.status(404).json({ error: "User not found" });
     }
-  });
+
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 module.exports = router;
