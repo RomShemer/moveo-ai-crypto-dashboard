@@ -1,5 +1,27 @@
+# ===============================
+# Environment variables
+# ===============================
+.env
+.env.*
+frontend/.env
+backend/.env
+
+# ===============================
+# Dependencies
+# ===============================
+node_modules/
+
+# ===============================
+# Build / output directories
+# ===============================
+dist/
+dist-ssr/
+build/
+
+# ===============================
 # Logs
-logs
+# ===============================
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,22 +29,22 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# ===============================
+# Editor / IDE
+# ===============================
+.vscode/
+.idea/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# ===============================
+# OS files
+# ===============================
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
 
-backend/.env
-frontend/.env
-.env
+# ===============================
+# Misc / temp
+# ===============================
+*.local
+*.swp
+*.swo
+*.swn
