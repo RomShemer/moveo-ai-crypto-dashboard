@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const onboardingRoutes = require("./routes/onboarding.routes");
 const preferencesRoutes = require("./routes/preferences.routes");
+const feedRoutes = require("./routes/feed.routes");
 
 
 const app = express();
@@ -19,5 +20,7 @@ app.use("/api", userRoutes);
 
 app.use("/api/onboarding", onboardingRoutes);
 app.use("/api/preferences", preferencesRoutes);
+
+app.use("/api/feed", feedRoutes);
 
 module.exports = app;
