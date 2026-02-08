@@ -4,7 +4,7 @@ const prisma = require("../prisma");
 
 router.post("/complete", requireAuth, async (req, res) => {
   try {
-    const userId = req.user.sub;
+    const userId = req.user.id;
 
     const user = await prisma.user.update({
       where: { id: userId },

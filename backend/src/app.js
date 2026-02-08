@@ -6,6 +6,8 @@ const userRoutes = require("./routes/user.routes");
 const onboardingRoutes = require("./routes/onboarding.routes");
 const preferencesRoutes = require("./routes/preferences.routes");
 const feedRoutes = require("./routes/feed.routes");
+const votesRoutes = require("./routes/votes.routes.js");
+
 
 
 const app = express();
@@ -22,5 +24,7 @@ app.use("/api/onboarding", onboardingRoutes);
 app.use("/api/preferences", preferencesRoutes);
 
 app.use("/api/feed", feedRoutes);
+
+app.use("/api/votes", votesRoutes);
 
 module.exports = app;

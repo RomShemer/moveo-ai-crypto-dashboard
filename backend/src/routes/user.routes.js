@@ -7,7 +7,7 @@ const prisma = require("../prisma");
 // =======================
 router.get("/me", requireAuth, async (req, res) => {
   try {
-    const userId = req.user.sub;
+    const userId = req.user.id;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },

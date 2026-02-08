@@ -78,7 +78,7 @@
 /* ===== Content ===== */
 .dashboard-content {
   padding: 44px 48px;
-  max-width: 1200px;
+  max-width: 60%;
   width: 100%;
   margin: 0 auto;
 }
@@ -197,4 +197,162 @@
     grid-template-columns: 1fr;
     gap: 18px;
   }
+}
+/* עיצוב משודרג למם */
+.dash-section.meme .meme-card {
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 20px;
+  overflow: hidden; /* מבטיח שהתמונה לא תצא מהגבולות המעוגלים */
+  max-width: 600px;
+  margin: 0 ;
+  transition: transform 0.3s ease;
+}
+
+.dash-section.meme .meme-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(99, 102, 241, 0.6);
+}
+
+/* המיכל שעוטף את כל הממים */
+.meme-container {
+  display: flex;
+  flex-wrap: wrap; 
+  /* השינוי המרכזי: דוחף את האלמנטים לקצוות */
+  justify-content: space-between; 
+  gap: 20px;
+  width: 100%; /* מוודא שהמיכל תופס את כל רוחב הסקשן */
+  margin-top: 20px;
+}
+/* כרטיס המם הבודד */
+.meme-card {
+  flex: 0 1 450px; /* רוחב מקסימלי לכל מם */
+  background: rgba(2, 6, 23, 0.7);
+  border-left: 4px solid #6366f1;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.meme-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  padding: 16px 20px;
+  background: rgba(99, 102, 241, 0.05);
+  text-align: left;
+}
+
+.meme-card img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain; /* שומר על יחס התמונה */
+  background: #000;
+}
+.news-list li {
+  margin-bottom: 12px;
+}
+
+.news-list a {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.news-source {
+  display: block;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* מיכל הצאט הכללי */
+.ai-chat-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 30px;
+}
+/* האייקון של ה-AI */
+.ai-avatar {
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 16px;
+  color: white;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); /* אפקט זוהר */
+  flex-shrink: 0;
+}
+/* בועת הדיבור */
+.ai-chat-bubble {
+  position: relative;
+  background: rgba(30, 27, 75, 0.4); /* רקע מעט יותר שקוף למראה זכוכית */
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  padding: 32px; /* הגדלת הריפוד הפנימי */
+  border-radius: 4px 28px 28px 28px; /* פינות מעוגלות יותר */
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  width: 100%; /* תופס את כל שאר הרוחב */
+}
+
+/* אפקט ה"זנב" של הבועה */
+.ai-chat-bubble::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 12px 12px 0;
+  border-color: transparent rgba(99, 102, 241, 0.3) transparent transparent;
+}
+
+.insight-markdown {
+  color: #e5e7eb;
+  font-size: 18px; /* טקסט גדול וקריא יותר */
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+}
+
+.insight-markdown h3 {
+  font-size: 22px;
+  color: #a5b4fc;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(165, 180, 252, 0.2);
+  padding-bottom: 8px;
+}
+/* הדגשות טקסט בתוך הצאט */
+.insight-markdown strong {
+  color: #a5b4fc;
+  background: rgba(165, 180, 252, 0.1);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* אנימציית הופעה עדינה */
+.ai-chat-bubble {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.asset-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.asset-icon {
+  width: 22px;
+  height: 22px;
 }
