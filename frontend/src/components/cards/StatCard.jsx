@@ -41,7 +41,6 @@ export default function StatCard({ id, section = "general", title, value, subtit
     const prevVote = vote;
     const newVote = vote === next ? null : next;
 
-    // 🔥 Optimistic UI
     setVote(newVote);
     setLoading(true);
 
@@ -57,7 +56,6 @@ export default function StatCard({ id, section = "general", title, value, subtit
       }
     } catch (err) {
       console.error("Vote request failed:", err);
-      // rollback
       setVote(prevVote);
     } finally {
       setLoading(false);

@@ -24,7 +24,6 @@ router.post("/complete", requireAuth, async (req, res) => {
     console.error("POST /onboarding/complete error:", err);
 
     if (err.code === "P2025") {
-      // Prisma: record not found
       return res.status(404).json({ error: "User not found" });
     }
 

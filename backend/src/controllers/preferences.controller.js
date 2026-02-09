@@ -1,20 +1,17 @@
-// backend/src/controllers/preferences.controller.js
-const prisma = require("../prisma"); // או הנתיב אצלך (אם יש prisma.js במקום אחר)
+const prisma = require("../prisma"); 
 
 exports.savePreferences = async (req, res) => {
   try {
-    const userId = req.user.id || req.user.sub; // תלוי מה את שמה ב-token
+    const userId = req.user.id || req.user.sub; 
     const { assets, investorType, contentTypes } = req.body;
 
     if (!userId) return res.status(401).json({ error: "Missing user in token" });
 
-    // לוודא שהיוזר קיים באמת בדאטהבייס
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    // Preference אחת לכל משתמש (upsert)
     const pref = await prisma.preference.upsert({
-      where: { userId }, // חייב userId להיות UNIQUE בסכמה
+      where: { userId }, 
       update: {
         assets,
         investorType,

@@ -9,12 +9,12 @@ import ReactMarkdown from "react-markdown";
 export default function Dashboard() {
   const { user, loading: authLoading, logout } = useAuth();
 
-  // ===== PREFERENCES =====
+  //PREFERENCES
   const [preferences, setPreferences] = useState(null);
   const [loadingPrefs, setLoadingPrefs] = useState(true);
   const [prefsError, setPrefsError] = useState("");
 
-  // ===== FEED DATA =====
+  //FEED DATA
   const [prices, setPrices] = useState([]);
   const [news, setNews] = useState([]);
   const [insight, setInsight] = useState(null);
@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   const [loadingFeed, setLoadingFeed] = useState(false);
 
-  // ===== LOAD PREFERENCES =====
+  //LOAD PREFERENCES
   useEffect(() => {
     if (authLoading || !user) return;
 
@@ -41,7 +41,7 @@ export default function Dashboard() {
     })();
   }, [authLoading, user]);
 
-  // ===== LOAD FEED (NON BLOCKING) =====
+  // sLOAD FEED (NON BLOCKING)
   useEffect(() => {
     if (authLoading || !user) return;
 
@@ -57,22 +57,22 @@ export default function Dashboard() {
 
       const [pricesRes, newsRes, insightRes, memeRes] = results;
 
-      // ---- PRICES ----
+      // PRICES
       if (pricesRes.status === "fulfilled") {
         setPrices(pricesRes.value?.items ?? []);
       }
 
-      // ---- NEWS ----
+      // NEWS
       if (newsRes.status === "fulfilled") {
         setNews(newsRes.value?.items ?? []);
       }
 
-      // ---- AI INSIGHT ----
+      // AI INSIGHT
       if (insightRes.status === "fulfilled") {
         setInsight(insightRes.value?.text ?? null);
       }
 
-      // ---- MEME ----
+      // MEME
       if (memeRes.status === "fulfilled") {
         setMeme(memeRes.value ?? null);
       }
@@ -81,7 +81,7 @@ export default function Dashboard() {
     })();
   }, [authLoading, user]);
 
-  // ===== PAGE LOADING =====
+  // PAGE LOADING
   if (authLoading || loadingPrefs) {
     return (
       <DashboardLayout>
@@ -92,7 +92,7 @@ export default function Dashboard() {
     );
   }
 
-  // ===== PAGE ERROR =====
+  // PAGE ERROR
   if (prefsError) {
     return (
       <DashboardLayout>
@@ -103,7 +103,7 @@ export default function Dashboard() {
     );
   }
 
-  // ===== PREFERENCES DATA =====
+  // PREFERENCES DATA 
   const assets = preferences?.assets ?? [];
   const investorType = preferences?.investorType ?? "";
   const contentTypes = preferences?.contentTypes ?? [];
@@ -125,7 +125,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout investorType={investorType}>
-      {/* ===== SUMMARY ===== */}
+      {/* SUMMARY */}
       <section id="summary" className="dash-section summary">
         <div className="cards-grid">
           <StatCard
@@ -152,7 +152,7 @@ export default function Dashboard() {
         </div>
       ) : (
         <>
-          {/* ===== ASSETS ===== */}
+          {/* ASSETS */}
           <section id="assets" className="dash-section">
             <div className="dash-section-header">
               <h2>Your Assets</h2>
@@ -179,7 +179,7 @@ export default function Dashboard() {
             )}
           </section>
 
-          {/* ===== AI INSIGHT ===== */}
+          {/* AI INSIGHT */}
           <section id="ai-insight" className="dash-section">
             <div className="dash-section-header">
               <h2>AI Insight</h2>
@@ -191,12 +191,10 @@ export default function Dashboard() {
               title={null}
               value={
                 <div className="ai-chat-container">
-                  {/* האווטאר */}
                   <div className="ai-avatar">
                     <span>AI</span>
                   </div>
 
-                  {/* הבועה */}
                   <div className="ai-chat-bubble">
                     {insight ? (
                       <div className="insight-markdown">
@@ -212,7 +210,7 @@ export default function Dashboard() {
             />
           </section>
 
-          {/* ===== NEWS ===== */}
+          {/* NEWS */}
           {contentTypes.includes("Market News") && (
             <section id="news" className="dash-section">
               <div className="dash-section-header">
@@ -245,7 +243,7 @@ export default function Dashboard() {
             </section>
           )}
 
-          {/* ===== MEME ===== */}
+          {/* MEME */}
           {contentTypes.includes("Fun") && meme && (
             <section id="meme" className="dash-section meme">
               <div className="dash-section-header">

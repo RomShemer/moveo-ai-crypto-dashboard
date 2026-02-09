@@ -12,7 +12,7 @@
 }
 
 .step-description {
-  color: #cbd5e1; /* חזק וברור יותר */
+  color: #cbd5e1; 
   font-size: 15px;
   font-weight: 500;
   max-width: 720px;
@@ -64,7 +64,6 @@
   display: block;
 }
 
-/* title (למשל HODLer / Live Charts) */
 .option-btn span:first-child {
   font-size: 18px;
   font-weight: 700;
@@ -76,7 +75,7 @@
   margin-top: 6px;
   font-size: 14px;
   font-weight: 500;
-  color: #e2e8f0; /* הרבה יותר קריא */
+  color: #e2e8f0; 
   line-height: 1.5;
 }
 

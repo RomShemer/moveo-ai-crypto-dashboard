@@ -13,7 +13,6 @@ export default function Topbar({ investorType }) {
     ? `${investorType} Mode`
     : "Personalized Mode";
 
-  // close menu on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {

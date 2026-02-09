@@ -93,7 +93,6 @@ export default function StepContent({ value = [], onChange, onBack, onFinish }) 
               <div className="option-title">{option.label}</div>
               <div className="option-desc">{option.desc}</div>
               
-              {/* נקודת חיווי לבחירה */}
               {isSelected && (
                 <motion.div 
                   initial={{ scale: 0 }} 

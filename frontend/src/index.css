@@ -1,4 +1,3 @@
-/* index.css – GLOBAL RESET */
 
 *,
 *::before,
@@ -21,13 +20,11 @@ body {
   color: #ffffff;
 }
 
-/* קישורים */
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* כפתורים – בסיס בלבד */
 button {
   font-family: inherit;
   cursor: pointer;

@@ -38,7 +38,6 @@ export default function Onboarding() {
 
       setUser(res.user);
 
-      // 4. רק עכשיו מותר לעבור לדאשבורד
       navigate("/dashboard");
     } catch (err) {
       console.error("Onboarding failed:", err);

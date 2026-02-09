@@ -12,14 +12,11 @@ import OnboardingRoute from "./components/OnboardingRoute";
 function App() {
   return (
     <Routes>
-      {/* default */}
       <Route path="/" element={<Navigate to="/login" />} />
 
-      {/* auth */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* onboarding – אחרי התחברות */}
       <Route
         path="/onboarding"
         element={
@@ -29,7 +26,6 @@ function App() {
         }
       />
 
-      {/* dashboard */}
       <Route
         path="/dashboard"
         element={

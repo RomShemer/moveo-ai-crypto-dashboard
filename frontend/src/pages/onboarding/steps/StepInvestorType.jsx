@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import "../../../styles/onboarding-stepInvestor.css";
 
-// ייבוא התמונות שייצרנו
 import hodlerImg from "../../../assets/onboarding/HODler.png";
 import dayTraderImg from "../../../assets/onboarding/DayTrader.png";
 import nftCollectorImg from "../../../assets/onboarding/NFTcollector.png";
@@ -29,18 +28,14 @@ const INVESTOR_TYPES = [
 
 export default function StepInvestorType({ value, onChange, onNext, onBack }) {
   
-  // פונקציה לטיפול בבחירה וביטול בחירה
   const handleSelect = (id) => {
     if (value === id) {
-      // אם המשתמש לחץ על מה שכבר נבחר -> נבטל את הבחירה
       onChange(null);
     } else {
-      // אם המשתמש לחץ על אופציה חדשה -> נבחר אותה
       onChange(id);
     }
   };
 
-  // הגדרות אנימציה
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -106,7 +101,7 @@ export default function StepInvestorType({ value, onChange, onNext, onBack }) {
         </button>
         <button 
           className="primary-btn" 
-          disabled={!value} // הכפתור כבוי אם לא נבחרה אף אופציה
+          disabled={!value} 
           onClick={onNext}
         >
           Continue

@@ -39,7 +39,7 @@
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
 
-  padding: 12px 10px;        /* ⬅️ צמצום ריפוד */
+  padding: 12px 10px;        
   color: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -48,7 +48,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;                  /* ⬅️ רווח אנכי קטן */
+  gap: 4px;                
   text-align: center;
 }
 
@@ -57,7 +57,6 @@
   border-color: var(--accent-color);
 }
 
-/* selected */
 .option-btn.selected {
   background: rgba(0, 210, 255, 0.18);
   border-color: var(--accent-color);
@@ -69,8 +68,8 @@
    Card
 ========================= */
 .investor-card {
-  height: 145px;              /* ⬅️ קצר יותר */
-  padding: 10px 12px;         /* ⬅️ פחות ריפוד */
+  height: 145px;              
+  padding: 10px 12px;        
   border-radius: 16px;
 
   background: rgba(255, 255, 255, 0.04);
@@ -81,7 +80,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;                   /* ⬅️ מצמצם רווחים */
+  gap: 4px;                  
 
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease;
@@ -118,14 +117,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 3px;                  /* ⬅️ אין רווח מיותר */
+  margin: 3px;                 
 }
 
 .investor-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: none;               /* ❌ מבטל halo / glow */
+  filter: none;               
 }
 
 /* =========================

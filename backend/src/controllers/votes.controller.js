@@ -58,14 +58,12 @@ async function deleteVote(req, res) {
 
     res.json({ success: true });
   } catch {
-    // אם אין הצבעה – לא נקרוס
     res.json({ success: true });
   }
 }
 
 /**
  * GET /api/votes/:itemKey
- * מחזיר את ההצבעה של המשתמש הנוכחי
  */
 async function getMyVote(req, res) {
   const userId = req.user.id;

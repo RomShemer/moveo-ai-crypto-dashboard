@@ -4,7 +4,7 @@ import { apiRequest } from "../services/api";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  // ===== STATE =====
+  //STATE
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem("user");
     return stored ? JSON.parse(stored) : null;
@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
 
   const [loading, setLoading] = useState(true);
 
-  // ===== LOAD USER ON REFRESH =====
+  //LOAD USER ON REFRESH
   useEffect(() => {
     async function loadCurrentUser() {
       if (!token) {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
     loadCurrentUser();
   }, [token]);
 
-  // ===== ACTIONS =====
+  //ACTIONS
   async function login({ email, password }) {
     const res = await apiRequest("/api/auth/login", {
       method: "POST",
@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
     clearAuth();
   }
 
-  // ===== HELPERS =====
+  //HELPERS
   function setAuth(res) {
     localStorage.setItem("token", res.token);
     localStorage.setItem("user", JSON.stringify(res.user));

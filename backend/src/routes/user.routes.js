@@ -2,9 +2,7 @@ const router = require("express").Router();
 const { requireAuth } = require("../middleware/auth.middleware");
 const prisma = require("../prisma");
 
-// =======================
-// GET /api/me
-// =======================
+
 router.get("/me", requireAuth, async (req, res) => {
   try {
     const userId = req.user.id;

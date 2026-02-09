@@ -10,7 +10,6 @@ const {
 
 const router = express.Router();
 
-// ✅ allow CORS preflight without auth
 /*router.use((req, res, next) => {
   if (req.method === "OPTIONS") {
     return res.sendStatus(204);
@@ -18,7 +17,6 @@ const router = express.Router();
   next();
 });*/
 
-// 🔐 protect actual routes
 router.use(requireAuth);
 
 router.get("/news", getNews);

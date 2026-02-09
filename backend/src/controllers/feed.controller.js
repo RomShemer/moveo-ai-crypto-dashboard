@@ -152,11 +152,10 @@ async function getPrices(req, res) {
     ? requiredIds
     : ["bitcoin", "ethereum"];
 
-  // 🔹 שלב 1: Cache
   const cached = getCache(cacheKey);
   const cachedItems = cached?.items ?? [];
 
-  // 🔒 API DISABLED
+  // API DISABLED
   if (externalApisDisabled) {
     return res.json({
       source: "static+cache",
@@ -168,7 +167,7 @@ async function getPrices(req, res) {
     });
   }
 
-  // 🟢 API ENABLED
+  // API ENABLED
   try {
     const apiData = await withTimeout(async (signal) => {
       const r = await fetch(
@@ -195,7 +194,6 @@ async function getPrices(req, res) {
     setCache(cacheKey, payload, 5 * 60 * 1000);
     return res.json(payload);
   } catch {
-    // ❌ API נכשל → cache + static
     return res.json({
       source: "static-fallback",
       items: mergePrices({
@@ -229,7 +227,7 @@ function mergePrices({ requiredIds, cachedItems, apiData }) {
 async function getNews(req, res) {
   const cacheKey = "news:cryptopanic";
 
-  // 🔒 API DISABLED MODE
+  // API DISABLED MODE
   if (externalApisDisabled) {
     const cached = getCache(cacheKey);
     if (cached) return res.json(cached);
@@ -240,7 +238,7 @@ async function getNews(req, res) {
     });
   }
 
-  // 🟢 NORMAL MODE
+  // NORMAL MODE
   const cached = getCache(cacheKey);
   if (cached) return res.json(cached);
 
@@ -282,7 +280,7 @@ async function getNews(req, res) {
 async function getAiInsight(req, res) {
   const cacheKey = `ai:${req.user.id}`;
 
-  // 🔒 API DISABLED MODE
+  // API DISABLED MODE
   if (externalApisDisabled) {
     const cached = getCache(cacheKey);
     if (cached) return res.json(cached);
@@ -293,12 +291,13 @@ async function getAiInsight(req, res) {
     });
   }
 
-  // 🟢 NORMAL MODE
+  // NORMAL MODE
   const cached = getCache(cacheKey);
   if (cached) return res.json(cached);
 
   try {
     const apiKey = process.env.OPENROUTER_API_KEY;
+
     if (!apiKey) throw new Error();
 
     const prefs = await getUserPrefs(req.user.id);
@@ -330,7 +329,7 @@ async function getAiInsight(req, res) {
       });
       if (!r.ok) throw new Error();
       return r.json();
-    }, 4000);
+    }, 12000);
 
     const payload = {
       source: "openrouter",
@@ -339,7 +338,8 @@ async function getAiInsight(req, res) {
 
     setCache(cacheKey, payload, 30 * 60 * 1000);
     return res.json(payload);
-  } catch {
+  } catch (err) {
+    console.error("AI insight error:", err);
     return res.json({
       source: "mock-ai",
       text: "Crypto markets are calm today. Stay focused on your long-term plan.",
@@ -350,67 +350,12 @@ async function getAiInsight(req, res) {
 // =======================
 // MEME
 // =======================
-/*=async function getMeme(req, res) {
-  const cacheKey = "meme";
-
-  // 🔒 API DISABLED MODE
-  /*if (externalApisDisabled) {
-    const cached = getCache(cacheKey);
-    if (cached) return res.json(cached);
-
-    return res.json({
-      source: "static-only",
-      ...pickRandom(MEMES),
-    });
-  }
-
-  // 🟢 NORMAL MODE
-  const cached = getCache(cacheKey);
-  if (cached) return res.json(cached);
-
-  try {
-    const data = await withTimeout(async (signal) => {
-      const r = await fetch(
-        "https://www.reddit.com/r/cryptomemes/hot.json?limit=20",
-        { signal, headers: { "User-Agent": "AI-Crypto-Advisor/1.0" } }
-      );
-      if (!r.ok) throw new Error();
-      return r.json();
-    }, 3000);
-
-    const posts = data.data.children
-      .map((c) => c.data)
-      .filter(
-        (p) =>
-          p.post_hint === "image" &&
-          /\.(jpg|jpeg|png)$/i.test(p.url)
-      );
-
-    if (!posts.length) throw new Error();
-
-    const meme = {
-      source: "reddit",
-      title: pickRandom(posts).title,
-      imageUrl: pickRandom(posts).url,
-    };
-
-    setCache(cacheKey, meme, 60 * 60 * 1000);
-    return res.json(meme);
-  } catch {
-    return res.json({
-      source: "static-fallback",
-      ...pickRandom(MEMES),
-    });
-  }
-}*/
-
 async function getMeme(req, res) {
   try {
     const url = "https://www.reddit.com/r/cryptomemes/hot.json?limit=30";
     
     const response = await fetch(url, {
       headers: {
-        // ה-User-Agent הזה קריטי כדי לעקוף שגיאת 403
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
@@ -420,13 +365,11 @@ async function getMeme(req, res) {
     });
 
     if (!response.ok) {
-      // אם עדיין יש 403, נדפיס לטרמינל כדי לדעת
       throw new Error(`Reddit API responded with ${response.status}`);
     }
 
     const data = await response.json();
     
-    // סינון פוסטים שיש בהם תמונה אמיתית
     const posts = data.data.children
       .map(child => child.data)
       .filter(p => 
@@ -447,19 +390,9 @@ async function getMeme(req, res) {
 
     return res.json(selectedMemes); // מחזיר מערך של 2 אובייקטים
 
-    /*const selected = pickRandom(posts);
-
-    return res.json({
-      source: "reddit",
-      title: selected.title,
-      imageUrl: selected.url,
-      permalink: `https://reddit.com${selected.permalink}`
-    });*/
-
   } catch (err) {
     console.error("⚠️ Reddit Fetch Failed:", err.message);
     
-    // החזרת ה-Fallback הסטטי שראינו בפוסטמן
     return res.json([
       {
         source: "static-fallback",
