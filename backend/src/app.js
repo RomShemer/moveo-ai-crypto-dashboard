@@ -6,7 +6,7 @@ const userRoutes = require("./routes/user.routes");
 const onboardingRoutes = require("./routes/onboarding.routes");
 const preferencesRoutes = require("./routes/preferences.routes");
 const feedRoutes = require("./routes/feed.routes");
-const votesRoutes = require("./routes/votes.routes.js");
+const votesRoutes = require("./routes/votes.routes");
 
 
 

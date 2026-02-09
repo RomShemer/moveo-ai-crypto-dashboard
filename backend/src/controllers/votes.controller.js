@@ -1,8 +1,11 @@
 const { PrismaClient } = require("@prisma/client");
-
 const prisma = new PrismaClient();
 
-async function createVote(req, res) {
+/**
+ * POST /api/votes
+ * body: { section, itemKey, value }
+ */
+async function createOrUpdateVote(req, res) {
   const userId = req.user.id;
   const { section, itemKey, value } = req.body;
 
@@ -36,4 +39,58 @@ async function createVote(req, res) {
   }
 }
 
-module.exports = { createVote };
+/**
+ * DELETE /api/votes/:itemKey
+ */
+async function deleteVote(req, res) {
+  const userId = req.user.id;
+  const { itemKey } = req.params;
+
+  try {
+    await prisma.vote.delete({
+      where: {
+        userId_itemKey: {
+          userId,
+          itemKey,
+        },
+      },
+    });
+
+    res.json({ success: true });
+  } catch {
+    // אם אין הצבעה – לא נקרוס
+    res.json({ success: true });
+  }
+}
+
+/**
+ * GET /api/votes/:itemKey
+ * מחזיר את ההצבעה של המשתמש הנוכחי
+ */
+async function getMyVote(req, res) {
+  const userId = req.user.id;
+  const { itemKey } = req.params;
+
+  try {
+    const vote = await prisma.vote.findUnique({
+      where: {
+        userId_itemKey: {
+          userId,
+          itemKey,
+        },
+      },
+    });
+
+    res.json({
+      value: vote?.value ?? null,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch vote" });
+  }
+}
+
+module.exports = {
+  createOrUpdateVote,
+  deleteVote,
+  getMyVote,
+};
