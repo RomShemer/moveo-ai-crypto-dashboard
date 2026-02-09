@@ -6,6 +6,47 @@
 }
 
 /* ===== Sidebar ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-nav button {
+  all: unset;               /* מנקה סטייל ברירת מחדל של button */
+  cursor: pointer;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+
+}
+
+.sidebar-nav button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-nav button:focus {
+  outline: none;
+}
+.sidebar-nav button.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: white;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
 .sidebar {
   width: 220px;
   padding: 24px;
@@ -27,6 +68,8 @@
   cursor: pointer;
   color: #c7d2fe;
   text-decoration: none;
+  font-weight: 700;
+
 }
 
 .sidebar-nav a.active,
@@ -70,10 +113,46 @@
   opacity: 0.9;
 }
 
-.user-email {
-  color: #c7d2fe;
-  opacity: 0.9;
+.topbar-right {
+  position: relative;
 }
+
+.user-email {
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  background: #0b1020;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 6px;
+  min-width: 140px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.logout-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.05);
+}
+
 
 /* ===== Content ===== */
 .dashboard-content {

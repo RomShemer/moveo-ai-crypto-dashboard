@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import ReactMarkdown from "react-markdown";
 
 export default function Dashboard() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
 
   // ===== PREFERENCES =====
   const [preferences, setPreferences] = useState(null);
@@ -120,30 +120,31 @@ export default function Dashboard() {
     BITCOIN: "bitcoin",
     CARDANO: "cardano",
     ETHEREUM: "ethereum",
-    SOLANA: "solana"
+    SOLANA: "solana",
   };
 
   return (
     <DashboardLayout investorType={investorType}>
       {/* ===== SUMMARY ===== */}
-      <div className="cards-grid">
-        <StatCard
-          title="AI Advisor Mode"
-          value={investorType || "Not set"}
-          subtitle="Based on onboarding"
-        />
-        <StatCard
-          title="Tracked Assets"
-          value={String(assets.length)}
-          subtitle="Selected in onboarding"
-        />
-        <StatCard
-          title="Content Types"
-          value={String(contentTypes.length)}
-          subtitle="Your daily feed mix"
-        />
-      </div>
-
+      <section id="summary" className="dash-section summary">
+        <div className="cards-grid">
+          <StatCard
+            title="AI Advisor Mode"
+            value={investorType || "Not set"}
+            subtitle="Based on onboarding"
+          />
+          <StatCard
+            title="Tracked Assets"
+            value={String(assets.length)}
+            subtitle="Selected in onboarding"
+          />
+          <StatCard
+            title="Content Types"
+            value={String(contentTypes.length)}
+            subtitle="Your daily feed mix"
+          />
+        </div>
+      </section>
       {!hasPrefs ? (
         <div className="empty-state">
           <h2>No preferences found</h2>
@@ -152,7 +153,7 @@ export default function Dashboard() {
       ) : (
         <>
           {/* ===== ASSETS ===== */}
-          <section className="dash-section">
+          <section id="assets" className="dash-section">
             <div className="dash-section-header">
               <h2>Your Assets</h2>
               <p>Live prices for selected assets</p>
@@ -179,7 +180,7 @@ export default function Dashboard() {
           </section>
 
           {/* ===== AI INSIGHT ===== */}
-          <section className="dash-section">
+          <section id="ai-insight" className="dash-section">
             <div className="dash-section-header">
               <h2>AI Insight</h2>
               <p>Personalized market analysis</p>
@@ -213,7 +214,7 @@ export default function Dashboard() {
 
           {/* ===== NEWS ===== */}
           {contentTypes.includes("Market News") && (
-            <section className="dash-section">
+            <section id="news" className="dash-section">
               <div className="dash-section-header">
                 <h2>Latest Crypto News</h2>
                 <p>Top headlines</p>
@@ -246,7 +247,7 @@ export default function Dashboard() {
 
           {/* ===== MEME ===== */}
           {contentTypes.includes("Fun") && meme && (
-            <section className="dash-section meme">
+            <section id="meme" className="dash-section meme">
               <div className="dash-section-header">
                 <h2>Fun Crypto Meme</h2>
                 <p>From the crypto community</p>
